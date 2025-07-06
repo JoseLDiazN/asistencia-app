@@ -1,0 +1,25 @@
+<%- include('../partials/header', { title: 'Horarios', user: user }) %>
+<div class="container py-5">
+  <h2>Horarios</h2>
+  <a href="/admin/schedules/new" class="btn btn-success mb-3">+ Añadir</a>
+  <table class="table table-striped">
+    <thead><tr><th>Nombre</th><th>Inicio</th><th>Fin</th><th>Almuerzo</th><th>Acciones</th></tr></thead>
+    <tbody>
+      <% list.forEach(s=>{ %>
+      <tr>
+        <td><%= s.name %></td>
+        <td><%= s.startTime %></td>
+        <td><%= s.endTime %></td>
+        <td><%= s.lunchDuration %> min</td>
+        <td>
+          <a href="/admin/schedules/<%= s._id %>/edit" class="btn btn-sm btn-primary">Editar</a>
+          <form action="/admin/schedules/<%= s._id %>?_method=DELETE" method="POST" class="d-inline">
+            <button class="btn btn-sm btn-danger">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<%- include('../partials/footer') %>

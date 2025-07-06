@@ -1,0 +1,31 @@
+{
+  "name": "asistencia-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.0",
+    "chart.js": "^4.5.0",
+    "connect-flash": "^0.1.1",
+    "dotenv": "^17.0.1",
+    "ejs": "^3.1.10",
+    "exceljs": "^4.4.0",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "fullcalendar": "^6.1.18",
+    "moment": "^2.30.1",
+    "mongoose": "^8.16.1",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "description": ""
+}

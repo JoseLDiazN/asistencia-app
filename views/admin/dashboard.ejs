@@ -1,0 +1,65 @@
+<%- include('../partials/header', { title: 'Admin', user: user }) %>
+
+<div class="container py-5">
+  <h1>Panel Admin</h1>
+  <div class="row g-4 mt-3">
+    <div class="col-md-3">
+      <a href="/admin/employees" class="card p-3 text-center">Empleados</a>
+    </div>
+    <div class="col-md-3">
+      <a href="/admin/schedules" class="card p-3 text-center">Horarios</a>
+    </div>
+    <div class="col-md-3">
+      <a href="/admin/records" class="card p-3 text-center">Marcaciones</a>
+    </div>
+    <div class="col-md-3">
+      <a href="/reports" class="card p-3 text-center">Reportes</a>
+    </div>
+  </div>
+
+  <!-- Dashboard gráfico -->
+  <h3 class="mt-5">Tardanzas y Horas Extras (última semana)</h3>
+  <canvas id="statsChart" height="100"></canvas>
+
+  <!-- Calendario interactivo -->
+  <h3 class="mt-5">Calendario de Marcaciones (mes actual)</h3>
+  <div id="calendar" style="max-width:900px; margin:auto; height:650px;"></div>
+</div>
+
+<%- include('../partials/footer') %>
+
+<!-- Scripts para Chart.js y FullCalendar (bundle global) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+
+<script>
+  // 1) Inicializar Chart.js
+  fetch('/admin/stats')
+    .then(res => res.json())
+    .then(({ labels, dataT, dataE }) => {
+      const ctx = document.getElementById('statsChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [
+            { label: 'Tardanzas',    data: dataT },
+            { label: 'Horas Extras', data: dataE }
+          ]
+        },
+        options: { responsive: true }
+      });
+    })
+    .catch(console.error);
+
+  // FullCalendar
+  document.addEventListener('DOMContentLoaded', () => {
+    const calendarEl = document.getElementById('calendar');
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      initialDate: '2025-07-01',      // o new Date().toISOString().slice(0,10)
+      events: '/admin/calendar-events'
+    });
+    calendar.render();
+  });
+</script>

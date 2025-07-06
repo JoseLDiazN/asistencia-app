@@ -1,0 +1,19 @@
+<%- include('partials/header', { title: 'Marcación', user: user }) %>
+<div class="container py-5">
+  <h1>Registro de Asistencia</h1>
+  <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+  <% if (success) { %><div class="alert alert-success"><%= success %></div><% } %>
+  <form class="row g-3" action="/attendance" method="POST">
+    <div class="col-md-6">
+      <label class="form-label">Código</label>
+      <input type="text" name="code" class="form-control" required>
+    </div>
+    <div class="col-12 d-flex gap-2">
+      <button name="action" value="in" class="btn btn-primary flex-fill">Entrada</button>
+      <button name="action" value="lunchOut" class="btn btn-warning flex-fill">Salida Almuerzo</button>
+      <button name="action" value="lunchIn" class="btn btn-success flex-fill">Entrada Almuerzo</button>
+      <button name="action" value="out" class="btn btn-danger flex-fill">Salida</button>
+    </div>
+  </form>
+</div>
+<%- include('partials/footer') %>

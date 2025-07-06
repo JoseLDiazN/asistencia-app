@@ -1,0 +1,15 @@
+<%- include('../partials/header', { title: sch?'Editar Horario':'Nuevo Horario', user: user }) %>
+<div class="container py-5">
+  <h2><%= sch?'Editar':'Nuevo' %> Horario</h2>
+  <form action="<%= sch?'/admin/schedules/'+sch._id+'?_method=PUT':'/admin/schedules' %>" method="POST" class="row g-3">
+    <div class="col-md-6"><label>Nombre</label><input name="name" class="form-control" value="<%= sch?.name||'' %>" required></div>
+    <div class="col-md-3"><label>Inicio</label><input type="time" name="startTime" class="form-control" value="<%= sch?.startTime||'' %>" required></div>
+    <div class="col-md-3"><label>Fin</label><input type="time" name="endTime" class="form-control" value="<%= sch?.endTime||'' %>" required></div>
+    <div class="col-md-3"><label>Almuerzo (min)</label><input type="number" name="lunchDuration" class="form-control" value="<%= sch?.lunchDuration||30 %>" required></div>
+    <div class="col-12">
+      <button class="btn btn-primary"><%= sch?'Actualizar':'Crear' %></button>
+      <a href="/admin/schedules" class="btn btn-secondary">Cancelar</a>
+    </div>
+  </form>
+</div>
+<%- include('../partials/footer') %>

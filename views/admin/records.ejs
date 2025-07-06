@@ -1,0 +1,18 @@
+<%- include('../partials/header', { title: 'Marcaciones', user: user }) %>
+<div class="container py-5">
+  <h2>Marcaciones</h2>
+  <table class="table table-striped">
+    <thead><tr><th>Fecha</th><th>Código</th><th>Nombre</th><th>Tipo</th></tr></thead>
+    <tbody>
+      <% recs.forEach(r=>{ %>
+      <tr>
+        <td><%= new Date(r.timestamp).toLocaleString() %></td>
+        <td><%= r.employeeId.code %></td>
+        <td><%= r.employeeId.name %></td>
+        <td><%= r.type %></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<%- include('../partials/footer') %>

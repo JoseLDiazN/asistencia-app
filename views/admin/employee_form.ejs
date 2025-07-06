@@ -1,0 +1,19 @@
+<%- include('../partials/header', { title: emp?'Editar Empleado':'Nuevo Empleado', user: user }) %>
+<div class="container py-5">
+  <h2><%= emp?'Editar':'Nuevo' %> Empleado</h2>
+  <form action="<%= emp?'/admin/employees/'+emp._id+'?_method=PUT':'/admin/employees' %>" method="POST" class="row g-3">
+    <div class="col-md-6"><label>Código</label><input name="code" class="form-control" value="<%= emp?.code||'' %>" required></div>
+    <div class="col-md-6"><label>Nombre</label><input name="name" class="form-control" value="<%= emp?.name||'' %>" required></div>
+    <div class="col-md-6"><label>Depto</label><input name="department" class="form-control" value="<%= emp?.department||'' %>"></div>
+    <div class="col-md-6"><label>Horario</label><select name="scheduleId" class="form-select">
+      <% schedules.forEach(s=>{ %>
+        <option value="<%= s._id %>" <%= emp?.scheduleId.equals(s._id)?'selected':'' %>><%= s.name %></option>
+      <% }) %>
+    </select></div>
+    <div class="col-12">
+      <button class="btn btn-primary"><%= emp?'Actualizar':'Crear' %></button>
+      <a href="/admin/employees" class="btn btn-secondary">Cancelar</a>
+    </div>
+  </form>
+</div>
+<%- include('../partials/footer') %>

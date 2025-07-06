@@ -1,0 +1,25 @@
+<%- include('../partials/header', { title: 'Empleados', user: user }) %>
+<div class="container py-5">
+  <h2>Empleados</h2>
+  <a href="/admin/employees/new" class="btn btn-success mb-3">+ Añadir</a>
+  <table class="table table-striped">
+    <thead><tr><th>Código</th><th>Nombre</th><th>Depto</th><th>Horario</th><th>Acciones</th></tr></thead>
+    <tbody>
+      <% list.forEach(emp => { %>
+      <tr>
+        <td><%= emp.code %></td>
+        <td><%= emp.name %></td>
+        <td><%= emp.department %></td>
+        <td><%= emp.scheduleId.name %></td>
+        <td>
+          <a href="/admin/employees/<%= emp._id %>/edit" class="btn btn-sm btn-primary">Editar</a>
+          <form action="/admin/employees/<%= emp._id %>?_method=DELETE" method="POST" class="d-inline">
+            <button class="btn btn-sm btn-danger">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<%- include('../partials/footer') %>

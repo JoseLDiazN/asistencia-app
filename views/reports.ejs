@@ -1,0 +1,57 @@
+<%- include('partials/header', { title: 'Reportes', user: user }) %>
+<div class="container py-5">
+  <h1>Reportes</h1>
+  <form class="row g-3 mb-4" action="/reports" method="POST">
+    <div class="col-md-3">
+      <label>Desde</label>
+      <input type="date" name="startDate" class="form-control" value="<%= filters.startDate %>" required>
+    </div>
+    <div class="col-md-3">
+      <label>Hasta</label>
+      <input type="date" name="endDate" class="form-control" value="<%= filters.endDate %>" required>
+    </div>
+    <div class="col-md-4">
+      <label>Empleado</label>
+      <select name="employeeId" class="form-select">
+        <option value="">Todos</option>
+        <% employees.forEach(emp => { %>
+          <option value="<%= emp._id %>" <%= filters.employeeId===String(emp._id)?'selected':'' %>><%= emp.code %> - <%= emp.name %></option>
+        <% }) %>
+      </select>
+    </div>
+    <div class="col-md-2 align-self-end">
+      <button class="btn btn-primary w-100">Generar</button>
+    </div>
+  </form>
+  <form action="/reports/export" method="POST" class="mb-3">
+  <input type="hidden" name="startDate" value="<%= filters.startDate %>">
+  <input type="hidden" name="endDate"   value="<%= filters.endDate   %>">
+  <input type="hidden" name="employeeId" value="<%= filters.employeeId||'' %>">
+  <button type="submit" class="btn btn-outline-success">
+    📥 Exportar a Excel
+  </button>
+</form>
+  <% if (report) { %>
+    <% if (report.length) { %>
+    <table class="table table-striped">
+      <thead><tr><th>Fecha</th><th>Código</th><th>Nombre</th><th>Tardanza</th><th>Salida Temprana</th><th>Almuerzo Largo</th><th>Sobretiempo</th></tr></thead>
+      <tbody>
+        <% report.forEach(r => { %>
+        <tr>
+          <td><%= r.date %></td>
+          <td><%= r.code %></td>
+          <td><%= r.name %></td>
+          <td><%= r.tardanza?'Sí':'No' %></td>
+          <td><%= r.salidaTemprana?'Sí':'No' %></td>
+          <td><%= r.almuerzoLargo?'Sí':'No' %></td>
+          <td><%= r.sobretiempo %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <% } else { %>
+      <div class="alert alert-info">No hay datos para mostrar.</div>
+    <% } %>
+  <% } %>
+</div>
+<%- include('partials/footer') %>
