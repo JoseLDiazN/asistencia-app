@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const Schedule = require('../models/Schedule');
 const Employee = require('../models/Employee');
 const Record   = require('../models/Record');
+const User     = require('../models/user');
 
 async function main() {
   await mongoose.connect(process.env.MONGODB_URI);
@@ -13,7 +14,16 @@ async function main() {
   await Employee.deleteMany({});
   await Record.deleteMany({});
 
-  // 2) Crea 3 horarios
+  // 2) Crea un usuario administrador
+  const adminUser = await User.create({
+    username: 'admin',
+    password: 'admin123',
+    role:     'admin' 
+  });
+
+  console.log('Usuario administrador creado:', adminUser.username);
+
+  // 3) Crea 3 horarios
   const schedules = await Schedule.create([
     { name: 'Mañana', startTime: '08:00', endTime: '16:00', lunchDuration: 30 },
     { name: 'Tarde',  startTime: '14:00', endTime: '22:00', lunchDuration: 30 },
@@ -22,9 +32,9 @@ async function main() {
 
   console.log('Horarios:', schedules.map(s => s.name));
 
-  // 3) Crea 25 empleados cíclicos
+  // 4) Crea 25 empleados cíclicos
   const employeesData = [];
-  for (let i = 1; i <= 25; i++) {
+  for (let i = 1; i <= 15; i++) {
     employeesData.push({
       code:         `EMP${String(i).padStart(4, '0')}`,
       name:         `Empleado ${i}`,
@@ -32,10 +42,12 @@ async function main() {
       scheduleId:   schedules[i % schedules.length]._id
     });
   }
+  
+  
   const employees = await Employee.insertMany(employeesData);
   console.log(`Creado ${employees.length} empleados`);
 
-  // 4) Crea marcaciones de ejemplo para los primeros 5 empleados
+  // 5) Crea marcaciones de ejemplo para los primeros 5 empleados
   const today = new Date();
   today.setHours(0,0,0,0);
 
